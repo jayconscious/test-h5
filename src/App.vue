@@ -3,6 +3,7 @@
     <div class="container">
       <div class="page">
         <input class="inp" type="text" v-model="text">
+        <div class="btn">确定</div>
       </div>
     </div>
   </div>
@@ -10,10 +11,21 @@
 
 <script>
 import $ from 'jquery'
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('DOMContentLoaded')
+  var ele = document.getElementsByClassName('page')[0],
+      wid = document.body.clientWidth ||  window.innerWidth,
+      hei = document.body.clientHeight || window.innerHeight
+      console.log(wid)
+      console.log(hei)
 
-$(document).ready(function () {
-    $('.page').css({'width':$(window).width(),'height':$(window).height()});
-});
+  ele.style.cssText = 'width:' + wid + 'px;height:' + hei + 'px;'
+  // console.log(ele.style)
+  console.log('width %d, height %d', wid, hei)
+}, false)
+// $(document).ready(function () {
+//     $('.page').css({'width':$(window).width(),'height':$(window).height()});
+// });
 
 export default {
   name: 'app',
@@ -62,5 +74,13 @@ html, body, #app {
   height: 2rem;
   outline: none;
   border: 0;
+}
+.btn {
+  font-size: 0.32rem;
+  width: 2rem;
+  height: 0.5rem;
+  background: orange;
+  border-radius: 0.2rem;
+  margin: 5rem auto;
 }
 </style>
