@@ -1,65 +1,17 @@
 <template>
-<div v-if="showAlert" class="modal-wrap" ref="modal" @click="close('')" v-cloak>
-  <div class="modal-inner">
-    <p class="title">{{ showCon.title }} <span v-if="showType == '3'">{{ driverName }}</span></p>
-    <p class="tip-first">{{ showCon.first }}</p>
-    <p class="tip-second">{{ showCon.second }}</p>
-    <div v-if="showType == '1'" class="btn-wrap">
-      <button class="btn cancel" @click="close('')">取消</button>
-      <button class="btn comfirm" @click="confirm('confirm')">退队</button>
+  <div v-if="showAlert" class="modal-wrap" ref="modal" @click="hideBox('')" v-cloak>
+    <div class="modal-inner">
+      <p class="title">{{ title }}</p>
+      <p class="tip-first">{{ first }}<span v-if="driverName">{{ driverName }}</span></p>
+      <p class="tip-second">{{ second }}</p>
+      <div v-if="cancelBtnText" class="btn-wrap">
+        <button class="btn cancel" @click="hideBox('')">{{ cancelBtnText }}</button>
+        <button class="btn comfirm" @click="confirm('confirm')">{{ confirmBtnText }}</button>
+      </div>
+      <div v-else class="konw-btn" @click="confirm('confirm')">{{ confirmBtnText }}</div>
     </div>
-    <div v-else class="konw-btn" @click="confirm('confirm')">我知道了</div>
   </div>
-</div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      driverName: '曹师傅',
-      showAlert: false,
-      // 1 换队  2 时间到  3 踢出队员
-      showType: '1',
-      content: {
-        // 队伍的转换
-        '1': {
-          title: '是否转换队伍',
-          first: '您原来已有队伍，确定退出',
-          second: '并加入此队伍吗?'
-        },
-        // 时间过期
-        '2': {
-          title: '无法加入',
-          first: '抱歉，组队时间以截至，您',
-          second: '无法加入其它队伍'
-        },
-        // 踢出队员
-        '3': {
-          title: '踢出队员',
-          first: '您确定要把',
-          second: '踢出队伍吗？'
-        }
-      }
-    }
-  },
-  computed: {
-    showCon() {
-      return this.content[this.showType]
-    }
-  },
-  methods: {
-    close(act) {
-      this.showAlert = false
-      this.callback('cancel')
-    },
-    confirm(action) {
-      this.showAlert = false
-      this.callback(action)
-    }
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 [v-cloak] {
@@ -85,7 +37,7 @@ export default {
   height: 4.3rem;
   box-sizing: border-box;
   padding-top: 0.12rem;
-  // background-image: url('../../assets/modal.png');
+  background-image: url('../../assets/modal.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -148,4 +100,37 @@ export default {
   font-size: 0.38rem;
   color: #040D1A;
 }
+
 </style>
+
+<script>
+export default {
+  methods: {
+    open() {
+      this.showAlert = true
+    },
+    confirm(action) {
+      this.showAlert = false
+      this.callback(action)
+    },
+    hideBox() {
+      this.showAlert = false
+    },
+    stop() {}
+  },
+  data() {
+    return {
+      showAlert: true,
+      msg: '',
+      title: '',
+      first: '',
+      second: '',
+      driverName: '',
+      cancelBtnText: '',
+      confirmBtnText: '',
+      msgHighlight: false,
+      callback: null
+    }
+  }
+}
+</script>
